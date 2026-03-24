@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "storm201",
+      "runtimeExecutable": "cmd.exe",
+      "runtimeArgs": ["/c", "serve.cmd"],
+      "port": 8081,
+      "autoPort": true
+    }
+  ]
+}
