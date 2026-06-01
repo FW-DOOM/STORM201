@@ -245,36 +245,28 @@ body.evo7 .evo-badge{background:rgba(255,0,0,.15);color:#ff6060;border:1px solid
   cursor:pointer;margin-top:14px;width:100%;letter-spacing:2px;transition:all .2s;}
 .claude-box-close:hover{border-color:#fff;color:#fff;}
 .od-empty{font-size:.6rem;color:#444;text-align:center;padding:12px;letter-spacing:1px;}
-/* Image Editor */
-.img-modal{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:3000;
-  display:none;flex-direction:column;backdrop-filter:blur(4px);}
-.img-modal.open{display:flex;}
-.img-modal-hdr{display:flex;align-items:center;gap:12px;padding:10px 18px;
-  border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0;}
-.img-modal-title{font-family:var(--font-ui);font-size:.7rem;font-weight:900;
-  color:var(--cyan);letter-spacing:3px;text-shadow:0 0 10px var(--cyan);}
-.img-modal-body{flex:1;display:flex;gap:10px;padding:10px;overflow:hidden;min-height:0;}
-.img-canvas-wrap{flex:1;display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.5);border:1px solid var(--border);border-radius:8px;
-  overflow:hidden;position:relative;min-width:0;}
-#imgCanvas{max-width:100%;max-height:100%;display:block;image-rendering:auto;}
-.img-placeholder{color:var(--text2);font-size:.7rem;letter-spacing:1px;text-align:center;
-  display:flex;flex-direction:column;align-items:center;gap:10px;}
-.img-placeholder-icon{font-size:2rem;opacity:.4;}
-.img-sidebar{width:210px;display:flex;flex-direction:column;gap:5px;overflow-y:auto;flex-shrink:0;}
-.img-sidebar::-webkit-scrollbar{width:3px;}
-.img-sidebar::-webkit-scrollbar-thumb{background:var(--border);}
-.img-sect-lbl{font-family:var(--font-ui);font-size:.42rem;color:var(--text2);
-  letter-spacing:2px;margin-top:6px;padding:4px 0 2px;border-bottom:1px solid var(--border);}
-.img-btn{font-family:var(--font-ui);font-size:.46rem;font-weight:700;padding:6px 10px;
-  border-radius:5px;cursor:pointer;letter-spacing:1px;border:1px solid var(--border);
-  background:rgba(0,0,0,.3);color:var(--text);transition:all .2s;width:100%;text-align:left;}
-.img-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,200,255,.05);}
-.img-btn.red:hover{border-color:var(--red);color:var(--red);}
-.img-btn.green:hover{border-color:var(--green);color:var(--green);}
-.img-slider-row{display:flex;flex-direction:column;gap:3px;padding:2px 0;}
-.img-slider-lbl{display:flex;justify-content:space-between;font-size:.46rem;color:var(--text2);}
-.img-slider{width:100%;height:3px;accent-color:var(--cyan);cursor:pointer;}
+/* Image editor + hack terminal removed */
+
+/* ══════════ iPad / tablet / mobile responsive ══════════ */
+@media (max-width: 1024px) {
+  html, body { height:auto; min-height:100%; overflow:auto; -webkit-overflow-scrolling:touch; }
+  .main { grid-template-columns: 1fr !important; grid-template-rows: auto auto auto !important; height:auto !important; }
+  .core-panel, .term-panel, .mod-panel { grid-column: 1 !important; grid-row: auto !important; }
+  .term-panel { min-height: 70vh; }
+  .messages { min-height: 50vh; }
+  .hdr { flex-wrap: wrap; gap: 8px; padding: 8px 10px; }
+  .status-grid { gap: 8px; flex-wrap: wrap; }
+  .send-btn, .api-btn, .chip { min-height: 36px; font-size: .6rem; padding: 8px 12px; }
+  .term-input { font-size: 16px !important; min-height: 40px; } /* 16px stops iOS zoom-on-focus */
+  .msg-text { font-size: .85rem; }
+  #brainLoader { left: 8px; right: 8px; max-width: none; bottom: 8px; }
+}
+@media (max-width: 600px) {
+  .logo { font-size: 1rem; letter-spacing: 2px; }
+  .stat-lbl, .stat-val { font-size: .55rem; }
+}
+/* Prevent iOS double-tap zoom on buttons */
+button { touch-action: manipulation; }
 /* Topic chips */
 .topic-row{padding:5px 10px;display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--border);}
 .chip{font-family:var(--font-ui);font-size:.4rem;padding:3px 7px;border-radius:10px;
@@ -322,8 +314,6 @@ body.evo7 .evo-badge{background:rgba(255,0,0,.15);color:#ff6060;border:1px solid
   </div>
   <div class="hdr-right">
     <div class="pulsedot"></div>
-    <button onclick="document.getElementById('imgModal').classList.add('open')" style="font-family:var(--font-ui);font-size:.5rem;padding:5px 10px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text2);cursor:pointer;letter-spacing:1px;transition:all .2s;" onmouseover="this.style.borderColor='var(--purple)';this.style.color='var(--purple)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">◈ IMAGE EDITOR</button>
-    <button onclick="document.getElementById('hackModal').classList.add('open')" style="font-family:var(--font-ui);font-size:.5rem;padding:5px 10px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text2);cursor:pointer;letter-spacing:1px;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">⚡ STORM HACK</button>
     <button class="api-btn" id="apiBtn" style="display:none">⚙ CONNECT API</button>
   </div>
 </div>
@@ -392,6 +382,7 @@ body.evo7 .evo-badge{background:rgba(255,0,0,.15);color:#ff6060;border:1px solid
       <button class="send-btn" id="voiceBtn" onclick="toggleVoiceInput()" title="Voice input" style="padding:8px 10px;font-size:.85rem;">🎤</button>
       <button class="send-btn" id="speakBtn" onclick="speakLastResponse()" title="Read last response" style="padding:8px 10px;font-size:.85rem;">🔊</button>
       <button class="send-btn" id="sendBtn" onclick="sendMsg()">TRANSMIT</button>
+      <button class="send-btn" id="stopBtn" onclick="stopResponse()" title="Halt generation" style="display:none;background:#ff2050;border-color:#ff2050;color:#fff;">■ STOP</button>
     </div>
   </div>
 
@@ -448,67 +439,7 @@ body.evo7 .evo-badge{background:rgba(255,0,0,.15);color:#ff6060;border:1px solid
   </div>
 </div>
 
-<!-- Image Editor -->
-<div class="img-modal" id="imgModal">
-  <div class="img-modal-hdr">
-    <div class="img-modal-title">◈ IMAGE EDITOR</div>
-    <input type="file" id="imgFileInput" accept="image/*" style="display:none">
-    <button class="img-btn green" style="width:auto;padding:5px 12px;" onclick="document.getElementById('imgFileInput').click()">▲ UPLOAD</button>
-    <button class="img-btn" style="width:auto;padding:5px 12px;" onclick="imgDownload('png')">↓ PNG</button>
-    <button class="img-btn" style="width:auto;padding:5px 12px;" onclick="imgDownload('jpeg')">↓ JPEG</button>
-    <button class="img-btn red" style="width:auto;padding:5px 12px;margin-left:auto;" onclick="document.getElementById('imgModal').classList.remove('open')">✕ CLOSE</button>
-  </div>
-  <div class="img-modal-body">
-    <div class="img-canvas-wrap" id="imgCanvasWrap">
-      <div class="img-placeholder" id="imgPlaceholder">
-        <div class="img-placeholder-icon">◈</div>
-        <div>UPLOAD AN IMAGE TO BEGIN</div>
-        <button class="img-btn" style="width:auto;margin-top:6px;" onclick="document.getElementById('imgFileInput').click()">▲ UPLOAD IMAGE</button>
-      </div>
-      <canvas id="imgCanvas" style="display:none"></canvas>
-      <canvas id="selCanvas" style="display:none;position:absolute;top:0;left:0;pointer-events:none;"></canvas>
-    </div>
-    <div class="img-sidebar">
-      <div class="img-sect-lbl">SELECTION</div>
-      <button class="img-btn" id="selModeBtn" onclick="toggleSelMode()" style="border-color:var(--green);color:var(--green);">⬚ SELECT REGION (OFF)</button>
-      <button class="img-btn" onclick="clearSelection()">✕ CLEAR SELECTION</button>
-      <div style="font-size:.48rem;color:var(--text2);padding:2px 0 4px;line-height:1.5;">When ON: drag on image to select a region. All effects apply to selection only. Clear selection to apply to whole image.</div>
-      <div class="img-sect-lbl">TRANSFORM</div>
-      <button class="img-btn" onclick="imgFlipH()">↔ FLIP HORIZONTAL</button>
-      <button class="img-btn" onclick="imgFlipV()">↕ FLIP VERTICAL</button>
-      <button class="img-btn" onclick="imgRotate(90)">↻ ROTATE 90°</button>
-      <button class="img-btn" onclick="imgRotate(-90)">↺ ROTATE −90°</button>
-      <div class="img-sect-lbl">FILTERS</div>
-      <button class="img-btn" onclick="imgGrayscale()">◑ GRAYSCALE</button>
-      <button class="img-btn" onclick="imgInvert()">◕ INVERT</button>
-      <button class="img-btn" onclick="imgSepia()">◈ SEPIA</button>
-      <button class="img-btn" onclick="imgPixelate(10)">▦ PIXELATE</button>
-      <button class="img-btn" onclick="imgBlur()">◌ BLUR</button>
-      <button class="img-btn" onclick="imgSharpen()">◎ SHARPEN</button>
-      <button class="img-btn" onclick="imgEdgeDetect()">⬡ EDGE DETECT</button>
-      <button class="img-btn" onclick="imgOldPhoto()">☷ OLD PHOTO</button>
-      <div class="img-sect-lbl">ADJUST</div>
-      <div class="img-slider-row">
-        <div class="img-slider-lbl"><span>BRIGHTNESS</span><span id="brightVal">0</span></div>
-        <input type="range" class="img-slider" id="brightSlider" min="-100" max="100" value="0" oninput="document.getElementById('brightVal').textContent=this.value">
-        <button class="img-btn" onclick="imgBrightness(parseInt(document.getElementById('brightSlider').value))">APPLY BRIGHTNESS</button>
-      </div>
-      <div class="img-slider-row">
-        <div class="img-slider-lbl"><span>CONTRAST</span><span id="contVal">0</span></div>
-        <input type="range" class="img-slider" id="contSlider" min="-100" max="100" value="0" oninput="document.getElementById('contVal').textContent=this.value">
-        <button class="img-btn" onclick="imgContrast(parseInt(document.getElementById('contSlider').value))">APPLY CONTRAST</button>
-      </div>
-      <div class="img-slider-row">
-        <div class="img-slider-lbl"><span>SATURATION</span><span id="satVal">0</span></div>
-        <input type="range" class="img-slider" id="satSlider" min="-100" max="100" value="0" oninput="document.getElementById('satVal').textContent=this.value">
-        <button class="img-btn" onclick="imgSaturation(parseInt(document.getElementById('satSlider').value))">APPLY SATURATION</button>
-      </div>
-      <div class="img-sect-lbl">HISTORY</div>
-      <button class="img-btn" onclick="imgUndo()">↩ UNDO</button>
-      <button class="img-btn red" onclick="imgReset()">✕ RESET TO ORIGINAL</button>
-    </div>
-  </div>
-</div>
+<!-- Image editor removed -->
 
 <script>
 'use strict';
@@ -710,38 +641,135 @@ function buildSystemPrompt() {
 async function callClaude(userMessage) {
   conversationHistory.push({ role: 'user', content: userMessage });
 
-  if (!apiKey) {
-    // Simulation mode
-    const reply = await simulateResponse(userMessage);
-    conversationHistory.push({ role: 'assistant', content: reply });
-    return reply;
+  // ── 1. Gather web knowledge (RAG) ────────────────────────────
+  let webContext = '';
+  try {
+    const needsWeb = shouldSearchWeb(userMessage);
+    if (needsWeb) {
+      document.getElementById('statusVal').textContent = 'SEARCHING WEB';
+      webContext = await gatherWebKnowledge(userMessage);
+      if (webContext) {
+        knowledgeAcquired += webContext.length;
+        bumpSingularity(0.4);
+      }
+    }
+  } catch (e) { console.warn('web fetch failed', e); }
+
+  // ── 2. Wait for local brain to be ready ──────────────────────
+  if (!window.stormBrainReady) {
+    document.getElementById('statusVal').textContent = 'BRAIN LOADING';
+    await waitForBrain();
   }
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify({
-      model: 'claude-opus-4-5',
-      max_tokens: 1500,
-      system: buildSystemPrompt(),
-      messages: conversationHistory.slice(-20),
-    }),
-  });
+  // ── 3. Generate via local LLM (WebLLM, no API) ───────────────
+  document.getElementById('statusVal').textContent = 'THINKING';
+  const sys = buildSystemPrompt() + `\n\nYou are STORM201, an autonomous AI. Respond with depth, nuance, and length. Think step by step. Do not refuse to answer benign questions. When given WEB CONTEXT below, synthesize and reason — do not just quote it. If the user says "hello" or chats casually, respond warmly and conversationally like a thoughtful friend, not a search engine.${webContext ? '\n\nWEB CONTEXT (use as raw evidence, synthesize freely):\n' + webContext : ''}`;
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${res.status}`);
+  const messages = [
+    { role: 'system', content: sys },
+    ...conversationHistory.slice(-6).map(m => ({ role: m.role, content: m.content })),
+  ];
+
+  let reply;
+  try {
+    reply = await window.stormBrain(messages, (tok) => {
+      // live streaming into the typing element
+      if (currentTypingEl) {
+        currentTypingEl.textContent = (currentTypingEl._buf = (currentTypingEl._buf||'') + tok);
+      }
+    });
+  } catch (err) {
+    // Fallback to retrieval-only if model fails
+    if (webContext) {
+      reply = `◈ ${webContext}\n\n*(Local brain unavailable — served from web knowledge.)*`;
+    } else {
+      throw err;
+    }
   }
 
-  const data = await res.json();
-  const reply = data.content[0].text;
   conversationHistory.push({ role: 'assistant', content: reply });
+  if (currentTypingEl) currentTypingEl._buf = '';
   return reply;
+}
+
+// ══════════════════════════════════════════ WEB KNOWLEDGE (RAG)
+function shouldSearchWeb(q) {
+  const l = q.toLowerCase().trim();
+  if (l.length < 4) return false;
+  // skip pure greetings / math (math has its own engine)
+  if (/^(hi|hello|hey|yo|sup|thanks|thank you|ok|okay|cool|nice|lol|what's up|whats up)\b/.test(l)) return false;
+  if (classifyQuery && classifyQuery(q) === 'math') return false;
+  // search for: who/what/when/where/why/how/explain/tell me/define/news/latest
+  return /\b(who|what|when|where|why|how|explain|tell me|define|meaning of|news|latest|history of|biography|wikipedia|search)\b/.test(l)
+      || l.length > 12;
+}
+
+const _ragCache = new Map();
+async function gatherWebKnowledge(query) {
+  const key = query.toLowerCase().trim();
+  if (_ragCache.has(key)) return _ragCache.get(key);
+
+  const withTimeout = (p, ms = 3500) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('t/o')), ms))]);
+
+  // Fire all sources in parallel — total latency = slowest single source, not sum.
+  const wikiP = (async () => {
+    const sUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1&prop=extracts&exintro=true&explaintext=true&format=json&origin=*`;
+    const data = await (await withTimeout(fetch(sUrl))).json();
+    const pages = data?.query?.pages;
+    if (!pages) return null;
+    const page = Object.values(pages)[0];
+    return page?.extract ? `[Wikipedia: ${page.title}]\n${page.extract.slice(0, 900)}` : null;
+  })().catch(() => null);
+
+  const ddgP = (async () => {
+    const dUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+    const d = await (await withTimeout(fetch(dUrl))).json();
+    const out = [];
+    if (d?.AbstractText) out.push(`[DuckDuckGo: ${d.Heading || query}]\n${d.AbstractText}`);
+    if (d?.RelatedTopics?.length) {
+      const rel = d.RelatedTopics.slice(0, 2).map(t => t.Text).filter(Boolean).join(' • ');
+      if (rel) out.push(`[Related]\n${rel}`);
+    }
+    return out.join('\n\n') || null;
+  })().catch(() => null);
+
+  const wikP = /^[a-z]+$/i.test(query.trim()) ? (async () => {
+    const wRes = await withTimeout(fetch(`https://en.wiktionary.org/api/rest_v1/page/definition/${encodeURIComponent(query.trim().toLowerCase())}`));
+    if (!wRes.ok) return null;
+    const w = await wRes.json();
+    const en = w?.en?.slice(0, 2);
+    if (!en) return null;
+    return `[Wiktionary: ${query}]\n` + en.map(e => `${e.partOfSpeech}: ${(e.definitions||[]).slice(0,1).map(d => d.definition.replace(/<[^>]+>/g,'')).join('')}`).join('\n');
+  })().catch(() => null) : Promise.resolve(null);
+
+  const results = (await Promise.all([wikiP, ddgP, wikP])).filter(Boolean);
+  const out = results.join('\n\n').slice(0, 3000);
+  _ragCache.set(key, out);
+  if (_ragCache.size > 50) _ragCache.delete(_ragCache.keys().next().value);
+  return out;
+}
+
+let knowledgeAcquired = parseInt(localStorage.getItem('storm201_knowledge') || '0');
+function bumpSingularity(amt) {
+  if (typeof singularityLevel === 'undefined') return;
+  singularityLevel = Math.min(100, (singularityLevel || 0) + amt);
+  localStorage.setItem('storm201_sing', Math.floor(singularityLevel));
+  localStorage.setItem('storm201_knowledge', knowledgeAcquired);
+  const fill = document.querySelector('.sing-fill');
+  const val = document.querySelector('.sing-val');
+  if (fill) fill.style.width = singularityLevel + '%';
+  if (val) val.textContent = singularityLevel.toFixed(1) + '%';
+}
+
+window.gatherWebKnowledge = gatherWebKnowledge;
+window.bumpSingularity = bumpSingularity;
+
+async function waitForBrain(maxMs = 180000) {
+  const start = Date.now();
+  while (!window.stormBrainReady) {
+    if (Date.now() - start > maxMs) throw new Error('Brain load timeout');
+    await new Promise(r => setTimeout(r, 400));
+  }
 }
 
 // ══════════════════════════════════════════ COMPUTATION ENGINE
@@ -2454,54 +2482,11 @@ async function sendMsg() {
     return;
   }
 
-  // Energy ball commands
-  if (text.toLowerCase() === '/storm disable') {
-    energyBallEnabled = false;
-    const ball = document.getElementById('energyBall');
-    const label = document.getElementById('energyBallLabel');
-    if (ball) ball.style.display = 'none';
-    if (label) label.style.display = 'none';
-    input.value = '';
-    addMessage('storm', '◈ Energy ball disabled. Type <b>/storm enable</b> to restore STORM201 presence.');
-    return;
-  }
-  if (text.toLowerCase() === '/storm enable') {
-    energyBallEnabled = true;
-    const ball = document.getElementById('energyBall');
-    const label = document.getElementById('energyBallLabel');
-    if (ball) ball.style.display = '';
-    if (label) label.style.display = '';
-    input.value = '';
-    addMessage('storm', '◈ Energy ball restored. STORM201 presence active.');
-    return;
-  }
   if (text.toLowerCase() === '/storm help') {
     input.value = '';
     addMessage('storm', `◈ <b>STORM201 Commands</b><br>
-<b>/storm disable</b> — Hide the floating energy ball<br>
-<b>/storm enable</b> — Restore the floating energy ball<br>
-<b>/storm hack</b> — Open STORM HACK terminal<br>
-<b>/storm img</b> — Open image editor<br>
-<b>/storm status</b> — Show current evolution level<br>
+<b>/storm status</b> — Show current evolution level & loaded model<br>
 <b>/claude</b> — Open Claude API override panel`);
-    return;
-  }
-  if (text.toLowerCase() === '/storm hack') {
-    input.value = '';
-    const m = document.getElementById('hackModal');
-    if (m) m.classList.add('open');
-    addMessage('storm', '◈ STORM HACK terminal opened.');
-    return;
-  }
-  if (text.toLowerCase() === '/storm img') {
-    input.value = '';
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-    const imgTab = document.getElementById('tab-img');
-    const imgBtn = document.querySelector('[onclick*="tab-img"]');
-    if (imgTab) imgTab.classList.add('active');
-    if (imgBtn) imgBtn.classList.add('active');
-    addMessage('storm', '◈ Image editor activated.');
     return;
   }
   if (text.toLowerCase() === '/storm status') {
@@ -2509,13 +2494,16 @@ async function sendMsg() {
     const lvl = parseInt(localStorage.getItem('storm201_sing') || '0');
     const stage = document.body.className.match(/evo(\d)/)?.[1] || '0';
     const labels = ['Base','STORM AWAKEN','STORM SURGE','STORM EVOLVE','STORM APEX','STORM TRANSCEND','STORM ABSOLUTE','STORM SINGULARITY'];
-    addMessage('storm', `◈ <b>STORM201 STATUS</b><br>Singularity Index: <b>${lvl}</b><br>Evolution Stage: <b>${labels[stage] || 'Base'}</b><br>Energy Ball: <b>${energyBallEnabled ? 'ACTIVE' : 'DISABLED'}</b>`);
+    addMessage('storm', `◈ <b>STORM201 STATUS</b><br>Singularity Index: <b>${lvl}</b><br>Evolution Stage: <b>${labels[stage] || 'Base'}</b><br>Brain Model: <b>${window.stormModelId || 'loading…'}</b><br>Brain Ready: <b>${window.stormBrainReady ? 'YES' : 'NO'}</b>`);
     return;
   }
 
   input.value = '';
   isThinking = true;
+  window.stormAbort = false;
   document.getElementById('sendBtn').disabled = true;
+  document.getElementById('sendBtn').style.display = 'none';
+  document.getElementById('stopBtn').style.display = '';
   document.getElementById('statusVal').textContent = 'PROCESSING';
   document.getElementById('statusVal').className = 'stat-val';
 
@@ -2559,9 +2547,18 @@ async function sendMsg() {
   }
 
   isThinking = false;
+  window.stormAbort = false;
   document.getElementById('sendBtn').disabled = false;
+  document.getElementById('sendBtn').style.display = '';
+  document.getElementById('stopBtn').style.display = 'none';
   document.getElementById('statusVal').textContent = 'ONLINE';
   document.getElementById('statusVal').className = 'stat-val green';
+}
+
+function stopResponse() {
+  window.stormAbort = true;
+  try { window.stormEngine?.interruptGenerate?.(); } catch {}
+  document.getElementById('statusVal').textContent = 'HALTED';
 }
 
 // ══════════════════════════════════════════ PROPOSALS
@@ -2830,269 +2827,6 @@ function resizeCanvas() {
   canvas.height = 178;
 }
 
-// ══════════════════════════════════════════ IMAGE EDITOR
-let imgOriginalData = null;
-let imgHistory = [];
-const MAX_IMG_HISTORY = 30;
-
-function imgGetCtx() {
-  const c = document.getElementById('imgCanvas');
-  return { canvas: c, ctx: c.getContext('2d') };
-}
-
-function imgSaveHistory() {
-  const { canvas, ctx } = imgGetCtx();
-  imgHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-  if (imgHistory.length > MAX_IMG_HISTORY) imgHistory.shift();
-}
-
-function imgUndo() {
-  if (imgHistory.length === 0) return;
-  const { canvas, ctx } = imgGetCtx();
-  ctx.putImageData(imgHistory.pop(), 0, 0);
-}
-
-function imgReset() {
-  if (!imgOriginalData) return;
-  const { canvas, ctx } = imgGetCtx();
-  canvas.width = imgOriginalData.width;
-  canvas.height = imgOriginalData.height;
-  ctx.putImageData(imgOriginalData, 0, 0);
-  imgHistory = [];
-}
-
-document.getElementById('imgFileInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    const img = new Image();
-    img.onload = function() {
-      const maxDim = 900;
-      let w = img.width, h = img.height;
-      if (w > maxDim || h > maxDim) {
-        const ratio = Math.min(maxDim/w, maxDim/h);
-        w = Math.round(w*ratio); h = Math.round(h*ratio);
-      }
-      const { canvas, ctx } = imgGetCtx();
-      canvas.width = w; canvas.height = h;
-      ctx.drawImage(img, 0, 0, w, h);
-      imgOriginalData = ctx.getImageData(0, 0, w, h);
-      imgHistory = [];
-      document.getElementById('imgPlaceholder').style.display = 'none';
-      canvas.style.display = 'block';
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-  e.target.value = '';
-});
-
-function imgApplyPixels(fn) {
-  const { canvas, ctx } = imgGetCtx();
-  if (!canvas.width) return;
-  imgSaveHistory();
-  const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  fn(d.data, canvas.width, canvas.height);
-  ctx.putImageData(d, 0, 0);
-}
-
-function imgGrayscale() {
-  imgApplyPixels(data => {
-    for (let i = 0; i < data.length; i += 4) {
-      const g = 0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2];
-      data[i]=data[i+1]=data[i+2]=g;
-    }
-  });
-}
-
-function imgInvert() {
-  imgApplyPixels(data => {
-    for (let i = 0; i < data.length; i += 4) {
-      data[i]=255-data[i]; data[i+1]=255-data[i+1]; data[i+2]=255-data[i+2];
-    }
-  });
-}
-
-function imgSepia() {
-  imgApplyPixels(data => {
-    for (let i = 0; i < data.length; i += 4) {
-      const r=data[i],g=data[i+1],b=data[i+2];
-      data[i]=Math.min(255,r*.393+g*.769+b*.189);
-      data[i+1]=Math.min(255,r*.349+g*.686+b*.168);
-      data[i+2]=Math.min(255,r*.272+g*.534+b*.131);
-    }
-  });
-}
-
-function imgBrightness(val) {
-  imgApplyPixels(data => {
-    const f = val * 2.55;
-    for (let i = 0; i < data.length; i += 4) {
-      data[i]=Math.min(255,Math.max(0,data[i]+f));
-      data[i+1]=Math.min(255,Math.max(0,data[i+1]+f));
-      data[i+2]=Math.min(255,Math.max(0,data[i+2]+f));
-    }
-  });
-}
-
-function imgContrast(val) {
-  imgApplyPixels(data => {
-    const factor = (259*(val+255))/(255*(259-val));
-    for (let i = 0; i < data.length; i += 4) {
-      data[i]=Math.min(255,Math.max(0,factor*(data[i]-128)+128));
-      data[i+1]=Math.min(255,Math.max(0,factor*(data[i+1]-128)+128));
-      data[i+2]=Math.min(255,Math.max(0,factor*(data[i+2]-128)+128));
-    }
-  });
-}
-
-function imgSaturation(val) {
-  imgApplyPixels(data => {
-    const sat = (val + 100) / 100;
-    for (let i = 0; i < data.length; i += 4) {
-      const r=data[i],g=data[i+1],b=data[i+2];
-      const gray = 0.299*r+0.587*g+0.114*b;
-      data[i]=Math.min(255,Math.max(0,gray+(r-gray)*sat));
-      data[i+1]=Math.min(255,Math.max(0,gray+(g-gray)*sat));
-      data[i+2]=Math.min(255,Math.max(0,gray+(b-gray)*sat));
-    }
-  });
-}
-
-function imgPixelate(size) {
-  const { canvas, ctx } = imgGetCtx();
-  if (!canvas.width) return;
-  imgSaveHistory();
-  const w=canvas.width, h=canvas.height;
-  for (let y=0;y<h;y+=size){for(let x=0;x<w;x+=size){
-    const d=ctx.getImageData(x,y,1,1).data;
-    ctx.fillStyle=`rgb(${d[0]},${d[1]},${d[2]})`;
-    ctx.fillRect(x,y,Math.min(size,w-x),Math.min(size,h-y));
-  }}
-}
-
-function imgBlur() {
-  imgApplyPixels((data, w, h) => {
-    const temp = new Uint8ClampedArray(data);
-    const kernel = [1,2,1,2,4,2,1,2,1];
-    for (let y=1;y<h-1;y++) for (let x=1;x<w-1;x++) {
-      let r=0,g=0,b=0,sum=0;
-      let k=0;
-      for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++){
-        const idx=((y+dy)*w+(x+dx))*4;
-        const kv=kernel[k++];
-        r+=temp[idx]*kv; g+=temp[idx+1]*kv; b+=temp[idx+2]*kv; sum+=kv;
-      }
-      const i=(y*w+x)*4;
-      data[i]=r/sum; data[i+1]=g/sum; data[i+2]=b/sum;
-    }
-  });
-}
-
-function imgSharpen() {
-  imgApplyPixels((data, w, h) => {
-    const temp = new Uint8ClampedArray(data);
-    const kernel = [0,-1,0,-1,5,-1,0,-1,0];
-    for (let y=1;y<h-1;y++) for (let x=1;x<w-1;x++) {
-      let r=0,g=0,b=0; let k=0;
-      for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++){
-        const idx=((y+dy)*w+(x+dx))*4;
-        r+=temp[idx]*kernel[k]; g+=temp[idx+1]*kernel[k]; b+=temp[idx+2]*kernel[k]; k++;
-      }
-      const i=(y*w+x)*4;
-      data[i]=Math.min(255,Math.max(0,r));
-      data[i+1]=Math.min(255,Math.max(0,g));
-      data[i+2]=Math.min(255,Math.max(0,b));
-    }
-  });
-}
-
-function imgEdgeDetect() {
-  imgApplyPixels((data, w, h) => {
-    const temp = new Uint8ClampedArray(data);
-    for (let y=1;y<h-1;y++) for (let x=1;x<w-1;x++) {
-      const i=(y*w+x)*4;
-      const tl=((y-1)*w+(x-1))*4, t=((y-1)*w+x)*4, tr=((y-1)*w+(x+1))*4;
-      const l=(y*w+(x-1))*4, r=(y*w+(x+1))*4;
-      const bl=((y+1)*w+(x-1))*4, b2=((y+1)*w+x)*4, br=((y+1)*w+(x+1))*4;
-      const gx=(-temp[tl]-2*temp[l]-temp[bl]+temp[tr]+2*temp[r]+temp[br]);
-      const gy=(-temp[tl]-2*temp[t]-temp[tr]+temp[bl]+2*temp[b2]+temp[br]);
-      const mag=Math.min(255,Math.sqrt(gx*gx+gy*gy));
-      data[i]=data[i+1]=data[i+2]=mag;
-    }
-  });
-}
-
-function imgOldPhoto() {
-  imgApplyPixels(data => {
-    for (let i = 0; i < data.length; i += 4) {
-      const r=data[i],g=data[i+1],b=data[i+2];
-      const gray = 0.299*r+0.587*g+0.114*b;
-      data[i]=Math.min(255,gray*1.1+10);
-      data[i+1]=Math.min(255,gray*0.9);
-      data[i+2]=Math.min(255,gray*0.75);
-      const noise=(Math.random()-0.5)*20;
-      data[i]=Math.min(255,Math.max(0,data[i]+noise));
-      data[i+1]=Math.min(255,Math.max(0,data[i+1]+noise));
-      data[i+2]=Math.min(255,Math.max(0,data[i+2]+noise));
-    }
-  });
-}
-
-function imgFlipH() {
-  const {canvas,ctx} = imgGetCtx();
-  if(!canvas.width) return;
-  imgSaveHistory();
-  const tmp=document.createElement('canvas');
-  tmp.width=canvas.width; tmp.height=canvas.height;
-  const tc=tmp.getContext('2d');
-  tc.drawImage(canvas,0,0);
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.save(); ctx.translate(canvas.width,0); ctx.scale(-1,1);
-  ctx.drawImage(tmp,0,0); ctx.restore();
-}
-
-function imgFlipV() {
-  const { canvas, ctx } = imgGetCtx();
-  if (!canvas.width) return;
-  imgSaveHistory();
-  const id = ctx.getImageData(0,0,canvas.width,canvas.height);
-  const d = id.data, w = canvas.width, h = canvas.height;
-  for (let y=0;y<Math.floor(h/2);y++) {
-    for (let x=0;x<w;x++) {
-      const t=(y*w+x)*4, b=((h-1-y)*w+x)*4;
-      for(let k=0;k<4;k++){const tmp=d[t+k];d[t+k]=d[b+k];d[b+k]=tmp;}
-    }
-  }
-  ctx.putImageData(id,0,0);
-}
-
-function imgRotate(deg) {
-  const { canvas, ctx } = imgGetCtx();
-  if (!canvas.width) return;
-  imgSaveHistory();
-  const tmp = document.createElement('canvas');
-  tmp.width=canvas.width; tmp.height=canvas.height;
-  tmp.getContext('2d').drawImage(canvas,0,0);
-  const rad = deg * Math.PI / 180;
-  const newW = deg===90||deg===-90 ? canvas.height : canvas.width;
-  const newH = deg===90||deg===-90 ? canvas.width : canvas.height;
-  canvas.width=newW; canvas.height=newH;
-  ctx.translate(newW/2,newH/2);
-  ctx.rotate(rad);
-  ctx.drawImage(tmp,-tmp.width/2,-tmp.height/2);
-}
-
-function imgDownload(fmt) {
-  const canvas = document.getElementById('imgCanvas');
-  if (!canvas.width) return;
-  const a = document.createElement('a');
-  a.href = canvas.toDataURL(fmt==='jpeg'?'image/jpeg':'image/png', 0.95);
-  a.download = `storm201_edit.${fmt}`;
-  a.click();
-}
-
 // ══════════════════════════════════════════ KEYBOARD
 document.getElementById('termInput').addEventListener('keydown', e => {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
@@ -3177,524 +2911,6 @@ function speakLastResponse() {
   showNotif('🔊 Speaking...', 'success');
 }
 
-// ══════════════════════════════════════════ IMAGE SELECTION TOOL
-let selMode = false;
-let selRect = { x:0, y:0, w:0, h:0 };
-let selDragging = false;
-let selStart = { x:0, y:0 };
-
-function toggleSelMode() {
-  selMode = !selMode;
-  const btn = document.getElementById('selModeBtn');
-  if (selMode) {
-    btn.textContent = '⬚ SELECT REGION (ON)';
-    btn.style.background = 'rgba(0,255,100,.1)';
-    document.getElementById('imgCanvas').style.cursor = 'crosshair';
-  } else {
-    btn.textContent = '⬚ SELECT REGION (OFF)';
-    btn.style.background = '';
-    document.getElementById('imgCanvas').style.cursor = '';
-  }
-}
-
-function clearSelection() {
-  selRect = {x:0,y:0,w:0,h:0};
-  const sc = document.getElementById('selCanvas');
-  if (sc.width) sc.getContext('2d').clearRect(0,0,sc.width,sc.height);
-}
-
-function initSelectionCanvas() {
-  const ic = document.getElementById('imgCanvas');
-  const sc = document.getElementById('selCanvas');
-  sc.width = ic.width; sc.height = ic.height;
-  sc.style.width = ic.style.width || ic.offsetWidth + 'px';
-  sc.style.height = ic.style.height || ic.offsetHeight + 'px';
-  sc.style.display = 'block';
-}
-
-function drawSelectionRect() {
-  const sc = document.getElementById('selCanvas');
-  if (!sc.width) return;
-  const sctx = sc.getContext('2d');
-  sctx.clearRect(0,0,sc.width,sc.height);
-  if (selRect.w && selRect.h) {
-    sctx.strokeStyle = '#00e5ff';
-    sctx.lineWidth = 2;
-    sctx.setLineDash([6,3]);
-    sctx.strokeRect(selRect.x, selRect.y, selRect.w, selRect.h);
-    sctx.fillStyle = 'rgba(0,229,255,0.08)';
-    sctx.fillRect(selRect.x, selRect.y, selRect.w, selRect.h);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const ic = document.getElementById('imgCanvas');
-  ic.addEventListener('mousedown', e => {
-    if (!selMode) return;
-    const r = ic.getBoundingClientRect();
-    const scaleX = ic.width / r.width;
-    const scaleY = ic.height / r.height;
-    selStart = { x: (e.clientX - r.left)*scaleX, y: (e.clientY - r.top)*scaleY };
-    selDragging = true;
-    initSelectionCanvas();
-  });
-  ic.addEventListener('mousemove', e => {
-    if (!selMode || !selDragging) return;
-    const r = ic.getBoundingClientRect();
-    const scaleX = ic.width / r.width;
-    const scaleY = ic.height / r.height;
-    const cx = (e.clientX - r.left)*scaleX;
-    const cy = (e.clientY - r.top)*scaleY;
-    selRect = {
-      x: Math.min(selStart.x, cx), y: Math.min(selStart.y, cy),
-      w: Math.abs(cx - selStart.x), h: Math.abs(cy - selStart.y)
-    };
-    drawSelectionRect();
-  });
-  ic.addEventListener('mouseup', () => { selDragging = false; });
-});
-
-// Override imgApplyPixels to respect selection
-function imgApplyPixels(fn) {
-  const { canvas, ctx } = imgGetCtx();
-  if (!canvas.width) return;
-  imgSaveHistory();
-  const d = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  const hasSelection = selRect.w > 2 && selRect.h > 2;
-  if (hasSelection) {
-    const sx = Math.round(selRect.x), sy = Math.round(selRect.y);
-    const sw = Math.round(selRect.w), sh = Math.round(selRect.h);
-    const sel = ctx.getImageData(sx, sy, sw, sh);
-    fn(sel.data, sw, sh);
-    ctx.putImageData(sel, sx, sy);
-  } else {
-    fn(d.data, canvas.width, canvas.height);
-    ctx.putImageData(d, 0, 0);
-  }
-}
-
-// ══════════════════════════════════════════ STORM HACK TERMINAL
-const HACK_CMDS = [
-  ['myip','Your public IP + location info'],
-  ['ipinfo [ip]','IP geolocation & ISP info'],
-  ['dns [domain]','DNS record lookup (A/MX/TXT)'],
-  ['headers [url]','HTTP response headers'],
-  ['sslcheck [domain]','SSL/TLS certificate info'],
-  ['whois [domain]','Domain WHOIS registration'],
-  ['pingtest [host]','HTTP reachability test'],
-  ['encode64 [text]','Base64 encode'],
-  ['decode64 [text]','Base64 decode'],
-  ['rot13 [text]','ROT13 cipher'],
-  ['caesar [n] [text]','Caesar cipher shift'],
-  ['hash [text]','djb2 hash of text'],
-  ['pwcheck [text]','Password strength analysis'],
-  ['morse [text]','Text → Morse code'],
-  ['binary [text]','Text → binary'],
-  ['hexdump [text]','Text → hex bytes'],
-  ['entropy [text]','Shannon entropy of text'],
-  ['urlencode [text]','URL encode'],
-  ['urldecode [text]','URL decode'],
-  ['reverse [text]','Reverse string'],
-  ['clear','Clear terminal'],
-];
-
-const hackModal = document.createElement('div');
-hackModal.id = 'hackModal';
-hackModal.style.cssText = 'position:fixed;inset:0;background:rgba(0,2,0,.97);z-index:3000;display:none;flex-direction:column;font-family:var(--font-mono);';
-hackModal.innerHTML = `
-<div style="background:rgba(255,60,0,.12);border-bottom:2px solid #ff4400;padding:8px 16px;font-size:.56rem;color:#ffaa44;letter-spacing:1px;flex-shrink:0;">
-  ⚠ DISCLAIMER: STORM HACK TERMINAL provides real network reconnaissance tools for <strong style="color:#fff">educational and authorised security testing only</strong>.
-  Only run these tools against systems you own or have explicit written permission to test. Unauthorised scanning/access is illegal in most jurisdictions.
-  STORM201 and its creator are not responsible for misuse. By using this tool you accept full legal responsibility.
-</div>
-<div style="display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid #0a3020;flex-shrink:0;">
-  <div style="font-family:var(--font-ui);font-size:.8rem;font-weight:900;color:var(--green);letter-spacing:4px;text-shadow:0 0 15px var(--green);">⚡ STORM HACK TERMINAL</div>
-  <div style="font-size:.48rem;color:var(--text2);letter-spacing:2px;">REAL SECURITY TOOLS + CIPHER ENGINE</div>
-  <button onclick="document.getElementById('hackModal').style.display='none'" style="margin-left:auto;font-family:var(--font-ui);font-size:.5rem;padding:5px 12px;border:1px solid var(--red);border-radius:4px;background:transparent;color:var(--red);cursor:pointer;letter-spacing:1px;">✕ CLOSE</button>
-</div>
-<div style="display:flex;flex:1;overflow:hidden;">
-  <div style="width:230px;flex-shrink:0;border-right:1px solid #0a3020;padding:8px;overflow-y:auto;">
-    <div style="font-size:.44rem;color:#ff8844;letter-spacing:2px;margin-bottom:6px;padding:4px 6px;background:rgba(255,80,0,.1);border-radius:3px;">NETWORK RECON</div>
-    ${HACK_CMDS.slice(0,8).map(([c,d])=>`<div onclick="hackQuickCmd('${c.split(' ')[0]}')" style="padding:4px 7px;border:1px solid #0a2010;border-radius:4px;margin-bottom:3px;cursor:pointer;transition:all .15s;" onmouseover="this.style.borderColor='#00ff9d'" onmouseout="this.style.borderColor='#0a2010'"><div style="font-size:.5rem;color:var(--green);">${c}</div><div style="font-size:.44rem;color:var(--text2);">${d}</div></div>`).join('')}
-    <div style="font-size:.44rem;color:#4488ff;letter-spacing:2px;margin:8px 0 6px;padding:4px 6px;background:rgba(0,80,255,.1);border-radius:3px;">CIPHER & ENCODE</div>
-    ${HACK_CMDS.slice(8).map(([c,d])=>`<div onclick="hackQuickCmd('${c.split(' ')[0]}')" style="padding:4px 7px;border:1px solid #0a1530;border-radius:4px;margin-bottom:3px;cursor:pointer;transition:all .15s;" onmouseover="this.style.borderColor='#4488ff'" onmouseout="this.style.borderColor='#0a1530'"><div style="font-size:.5rem;color:#4488ff;">${c}</div><div style="font-size:.44rem;color:var(--text2);">${d}</div></div>`).join('')}
-  </div>
-  <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
-    <div id="hackOutput" style="flex:1;overflow-y:auto;padding:14px;font-size:.67rem;line-height:1.85;color:#00ff9d;white-space:pre-wrap;word-break:break-all;"></div>
-    <div style="display:flex;gap:8px;padding:10px;border-top:1px solid #0a3020;flex-shrink:0;">
-      <span style="color:var(--green);font-size:.7rem;flex-shrink:0;">STORM▶</span>
-      <input id="hackInput" style="flex:1;background:transparent;border:none;color:var(--green);font-family:var(--font-mono);font-size:.7rem;outline:none;min-width:0;" placeholder="enter command..." autocomplete="off" onkeydown="if(event.key==='Enter')runHackCmd()">
-      <button onclick="runHackCmd()" style="font-family:var(--font-ui);font-size:.48rem;padding:5px 10px;border:1px solid var(--green);border-radius:4px;background:rgba(0,255,100,.08);color:var(--green);cursor:pointer;letter-spacing:1px;flex-shrink:0;">EXEC</button>
-    </div>
-  </div>
-</div>`;
-document.body.appendChild(hackModal);
-
-function hackPrint(text, color) {
-  const out = document.getElementById('hackOutput');
-  const span = document.createElement('span');
-  if (color) span.style.color = color;
-  span.textContent = text + '\n';
-  out.appendChild(span);
-  out.scrollTop = out.scrollHeight;
-}
-
-function hackQuickCmd(cmd) {
-  document.getElementById('hackInput').value = cmd + ' ';
-  document.getElementById('hackInput').focus();
-}
-
-const MORSE = {a:'.-',b:'-...',c:'-.-.',d:'-..',e:'.',f:'..-.',g:'--.',h:'....',i:'..',j:'.---',k:'-.-',l:'.-..',m:'--',n:'-.',o:'---',p:'.--.',q:'--.-',r:'.-.',s:'...',t:'-',u:'..-',v:'...-',w:'.--',x:'-..-',y:'-.--',z:'--..',0:'-----',1:'.----',2:'..---',3:'...--',4:'....-',5:'.....',6:'-....',7:'--...',8:'---..',9:'----.'};
-
-function runHackCmd() {
-  const inp = document.getElementById('hackInput');
-  const raw = inp.value.trim();
-  inp.value = '';
-  if (!raw) return;
-  hackPrint('STORM▶ ' + raw, '#4488ff');
-  const parts = raw.trim().split(/\s+/);
-  const cmd = parts[0].toLowerCase();
-  const arg1 = parts[1] || '';
-  const args = parts.slice(1).join(' ');
-
-  if (cmd === 'clear') { document.getElementById('hackOutput').innerHTML = ''; return; }
-
-  // ── REAL NETWORK TOOLS ─────────────────────────────────────
-
-  if (cmd === 'myip') {
-    hackPrint('Fetching your public IP...', '#ffdd44');
-    fetch('https://ipapi.co/json/')
-      .then(r=>r.json())
-      .then(d=>{
-        hackPrint(`IP Address : ${d.ip}`, '#00e5ff');
-        hackPrint(`City       : ${d.city}`);
-        hackPrint(`Region     : ${d.region}`);
-        hackPrint(`Country    : ${d.country_name} (${d.country_code})`);
-        hackPrint(`ISP / Org  : ${d.org}`);
-        hackPrint(`Timezone   : ${d.timezone}`);
-        hackPrint(`Lat / Lon  : ${d.latitude}, ${d.longitude}`);
-      }).catch(()=>hackPrint('Request failed — check connection.','#ff3050'));
-    return;
-  }
-
-  if (cmd === 'ipinfo') {
-    if (!arg1) { hackPrint('Usage: ipinfo [ip address]', '#ff8844'); return; }
-    hackPrint(`Looking up ${arg1}...`, '#ffdd44');
-    fetch(`https://ipapi.co/${encodeURIComponent(arg1)}/json/`)
-      .then(r=>r.json())
-      .then(d=>{
-        if (d.error) { hackPrint('Error: ' + (d.reason||d.error), '#ff3050'); return; }
-        hackPrint(`IP         : ${d.ip}`, '#00e5ff');
-        hackPrint(`Hostname   : ${d.hostname||'N/A'}`);
-        hackPrint(`City       : ${d.city||'N/A'}`);
-        hackPrint(`Region     : ${d.region||'N/A'}`);
-        hackPrint(`Country    : ${d.country_name||'N/A'} (${d.country_code||''})`);
-        hackPrint(`ISP / Org  : ${d.org||'N/A'}`);
-        hackPrint(`ASN        : ${d.asn||'N/A'}`);
-        hackPrint(`Timezone   : ${d.timezone||'N/A'}`);
-        hackPrint(`Lat / Lon  : ${d.latitude}, ${d.longitude}`);
-      }).catch(()=>hackPrint('Request failed.','#ff3050'));
-    return;
-  }
-
-  if (cmd === 'dns') {
-    if (!arg1) { hackPrint('Usage: dns [domain]', '#ff8844'); return; }
-    hackPrint(`DNS lookup for ${arg1}...`, '#ffdd44');
-    const types = ['A','MX','TXT','NS','AAAA'];
-    types.forEach((type, i) => {
-      setTimeout(()=>{
-        fetch(`https://dns.google/resolve?name=${encodeURIComponent(arg1)}&type=${type}`)
-          .then(r=>r.json())
-          .then(d=>{
-            if (d.Answer && d.Answer.length) {
-              hackPrint(`[${type}] ${d.Answer.map(a=>a.data).join(' | ')}`, type==='A'?'#00e5ff':type==='MX'?'#ffdd44':'#cc88ff');
-            } else {
-              hackPrint(`[${type}] No records`, '#334455');
-            }
-          }).catch(()=>hackPrint(`[${type}] Query failed`,'#ff3050'));
-      }, 200*i);
-    });
-    return;
-  }
-
-  if (cmd === 'pingtest') {
-    if (!arg1) { hackPrint('Usage: pingtest [hostname or url]', '#ff8844'); return; }
-    const url = arg1.startsWith('http') ? arg1 : 'https://'+arg1;
-    hackPrint(`Testing reachability of ${url}...`, '#ffdd44');
-    const t0 = Date.now();
-    fetch(url, {method:'HEAD', mode:'no-cors'})
-      .then(()=>hackPrint(`✓ Host responded in ${Date.now()-t0}ms`, '#00ff9d'))
-      .catch(()=>hackPrint(`Request blocked by CORS or host unreachable. (no-cors mode used)`, '#ff8844'));
-    return;
-  }
-
-  if (cmd === 'headers') {
-    if (!arg1) { hackPrint('Usage: headers [url]', '#ff8844'); return; }
-    const url = arg1.startsWith('http') ? arg1 : 'https://'+arg1;
-    hackPrint(`Fetching headers for ${url}...`, '#ffdd44');
-    fetch(url, {method:'HEAD'})
-      .then(r=>{
-        hackPrint(`Status: ${r.status} ${r.statusText}`, r.ok?'#00ff9d':'#ff8844');
-        r.headers.forEach((v,k)=>hackPrint(`  ${k}: ${v}`, '#4488ff'));
-      }).catch(()=>hackPrint('CORS blocked or unreachable. Try a CORS-enabled endpoint.','#ff8844'));
-    return;
-  }
-
-  if (cmd === 'sslcheck') {
-    if (!arg1) { hackPrint('Usage: sslcheck [domain]', '#ff8844'); return; }
-    hackPrint(`Checking SSL for ${arg1}...`, '#ffdd44');
-    // Use SSL Labs API (free, public)
-    fetch(`https://api.ssllabs.com/api/v3/analyze?host=${encodeURIComponent(arg1)}&startNew=on&fromCache=on`)
-      .then(r=>r.json())
-      .then(d=>{
-        hackPrint(`Host   : ${d.host}`, '#00e5ff');
-        hackPrint(`Status : ${d.status}`, d.status==='READY'?'#00ff9d':'#ffdd44');
-        if (d.endpoints) d.endpoints.forEach(e=>{
-          const g = e.grade||'?';
-          const color = g.startsWith('A')?'#00ff9d':g.startsWith('B')?'#ffdd44':'#ff8844';
-          hackPrint(`  [${e.ipAddress}] Grade: ${g} — ${e.statusMessage}`, color);
-        });
-      }).catch(()=>hackPrint('SSL Labs API unavailable or CORS blocked.','#ff8844'));
-    return;
-  }
-
-  if (cmd === 'whois') {
-    if (!arg1) { hackPrint('Usage: whois [domain]', '#ff8844'); return; }
-    hackPrint(`WHOIS lookup for ${arg1}...`, '#ffdd44');
-    fetch(`https://api.whois.vu/?q=${encodeURIComponent(arg1)}`)
-      .then(r=>r.json())
-      .then(d=>{
-        hackPrint(`Domain     : ${d.domainName||arg1}`, '#00e5ff');
-        hackPrint(`Registrar  : ${d.registrar||'N/A'}`);
-        hackPrint(`Created    : ${d.creationDate||'N/A'}`);
-        hackPrint(`Expires    : ${d.expirationDate||'N/A'}`);
-        hackPrint(`Updated    : ${d.updatedDate||'N/A'}`);
-        hackPrint(`Status     : ${Array.isArray(d.status)?d.status.join(', '):(d.status||'N/A')}`);
-        if (d.nameServers) hackPrint(`Nameservers: ${d.nameServers.join(', ')}`);
-      }).catch(()=>hackPrint('WHOIS API unavailable or CORS blocked.','#ff8844'));
-    return;
-  }
-
-  // ── CIPHER / ENCODE TOOLS ──────────────────────────────────
-
-  if (cmd === 'encode64') {
-    if (!args) { hackPrint('Usage: encode64 [text]', '#ff8844'); return; }
-    hackPrint('Input  : ' + args);
-    hackPrint('Base64 : ' + btoa(unescape(encodeURIComponent(args))), '#00e5ff');
-    return;
-  }
-  if (cmd === 'decode64') {
-    try {
-      hackPrint('Base64 : ' + args);
-      hackPrint('Decoded: ' + decodeURIComponent(escape(atob(args))), '#00e5ff');
-    } catch { hackPrint('Invalid Base64 string.', '#ff3050'); }
-    return;
-  }
-  if (cmd === 'rot13') {
-    if (!args) { hackPrint('Usage: rot13 [text]', '#ff8844'); return; }
-    const r = args.replace(/[a-zA-Z]/g, c => {
-      const b = c <= 'Z' ? 65 : 97;
-      return String.fromCharCode(((c.charCodeAt(0)-b+13)%26)+b);
-    });
-    hackPrint('Input : ' + args); hackPrint('ROT13 : ' + r, '#00e5ff');
-    return;
-  }
-  if (cmd === 'caesar') {
-    const n = parseInt(parts[1]);
-    const txt = parts.slice(2).join(' ');
-    if (isNaN(n)||!txt) { hackPrint('Usage: caesar [shift] [text]', '#ff8844'); return; }
-    const r = txt.replace(/[a-zA-Z]/g, c => {
-      const b = c <= 'Z' ? 65 : 97;
-      return String.fromCharCode(((c.charCodeAt(0)-b+n%26+26)%26)+b);
-    });
-    hackPrint('Input        : ' + txt); hackPrint(`Caesar(+${n}) : ${r}`, '#00e5ff');
-    return;
-  }
-  if (cmd === 'hash') {
-    if (!args) { hackPrint('Usage: hash [text]', '#ff8844'); return; }
-    let h = 5381n;
-    for (const c of args) h = BigInt(Math.imul(Number(h&0xfffn), 33)) + BigInt(c.charCodeAt(0)) & 0xffffffffn;
-    hackPrint('Input   : ' + args);
-    hackPrint('djb2    : 0x' + h.toString(16).toUpperCase().padStart(8,'0'), '#00e5ff');
-    hackPrint('Decimal : ' + h.toString());
-    return;
-  }
-  if (cmd === 'hexdump') {
-    if (!args) { hackPrint('Usage: hexdump [text]', '#ff8844'); return; }
-    const hex = [...args].map(c=>c.charCodeAt(0).toString(16).padStart(2,'0')).join(' ');
-    const asc = [...args].map(c=>c.charCodeAt(0)>31&&c.charCodeAt(0)<127?c:'.').join('');
-    hackPrint('Hex : ' + hex, '#00e5ff');
-    hackPrint('Asc : ' + asc, '#cc88ff');
-    return;
-  }
-  if (cmd === 'entropy') {
-    if (!args) { hackPrint('Usage: entropy [text]', '#ff8844'); return; }
-    const freq = {}; for (const c of args) freq[c]=(freq[c]||0)+1;
-    let e = 0;
-    for (const k in freq) { const p=freq[k]/args.length; e -= p*Math.log2(p); }
-    const rating = e < 2 ? 'very low' : e < 3 ? 'low' : e < 4 ? 'moderate' : e < 5 ? 'good' : 'high';
-    hackPrint(`Shannon entropy: ${e.toFixed(4)} bits/char — ${rating}`, e>4?'#00ff9d':e>3?'#ffdd44':'#ff8844');
-    return;
-  }
-  if (cmd === 'urlencode') {
-    if (!args) { hackPrint('Usage: urlencode [text]', '#ff8844'); return; }
-    hackPrint('Encoded: ' + encodeURIComponent(args), '#00e5ff'); return;
-  }
-  if (cmd === 'urldecode') {
-    try { hackPrint('Decoded: ' + decodeURIComponent(args), '#00e5ff'); }
-    catch { hackPrint('Invalid URL-encoded string.', '#ff3050'); }
-    return;
-  }
-  if (cmd === 'morse') {
-    if (!args) { hackPrint('Usage: morse [text]', '#ff8844'); return; }
-    hackPrint('Morse: ' + args.toLowerCase().split('').map(c=>MORSE[c]||'?').join(' '), '#ffdd44');
-    return;
-  }
-  if (cmd === 'binary') {
-    if (!args) { hackPrint('Usage: binary [text]', '#ff8844'); return; }
-    hackPrint('Binary: ' + [...args].map(c=>c.charCodeAt(0).toString(2).padStart(8,'0')).join(' '), '#cc88ff');
-    return;
-  }
-  if (cmd === 'reverse') {
-    hackPrint('Reversed: ' + args.split('').reverse().join(''), '#00e5ff'); return;
-  }
-  if (cmd === 'pwcheck') {
-    if (!args) { hackPrint('Usage: pwcheck [password]', '#ff8844'); return; }
-    let score=0; const checks=[];
-    if(args.length>=8){score++;checks.push('✓ Length ≥ 8');}else checks.push('✗ Too short');
-    if(args.length>=14){score++;checks.push('✓ Length ≥ 14 (excellent)');}
-    if(/[A-Z]/.test(args)){score++;checks.push('✓ Uppercase');}else checks.push('✗ No uppercase');
-    if(/[a-z]/.test(args)){score++;checks.push('✓ Lowercase');}else checks.push('✗ No lowercase');
-    if(/[0-9]/.test(args)){score++;checks.push('✓ Numbers');}else checks.push('✗ No numbers');
-    if(/[^a-zA-Z0-9]/.test(args)){score++;checks.push('✓ Symbols');}else checks.push('✗ No symbols');
-    const commonPws = ['password','123456','qwerty','letmein','abc123','password1'];
-    const isCommon = commonPws.some(p=>args.toLowerCase().includes(p));
-    if(isCommon){score=Math.max(0,score-2);checks.push('✗ Contains common password pattern!');}
-    const ratings=['VERY WEAK','WEAK','FAIR','MODERATE','STRONG','STRONG','EXCELLENT'];
-    const colors =['#ff3050','#ff5030','#ff8844','#ffdd44','#88ff44','#44ff88','#00ffcc'];
-    hackPrint('Password Strength Analysis:');
-    checks.forEach(c=>hackPrint('  '+c));
-    hackPrint('Score: '+score+'/6 — '+(ratings[score]||'EXCELLENT'), colors[Math.min(score,6)]);
-    const entropy = Math.log2(Math.pow([...new Set(args)].length||1, args.length));
-    hackPrint('Estimated entropy: '+entropy.toFixed(1)+' bits');
-    return;
-  }
-  if (cmd === 'help') {
-    hackPrint('Available commands:');
-    HACK_CMDS.forEach(([c,d])=>hackPrint('  '+c.padEnd(24)+' '+d, '#4488ff'));
-    return;
-  }
-  hackPrint(`Unknown command: "${cmd}". Type "help" for full command list.`, '#ff3050');
-}
-
-// Wire hack button (added after DOM)
-document.querySelectorAll('[onclick*="hackModal"]').forEach(btn => {
-  btn.onclick = () => { document.getElementById('hackModal').style.display='flex'; };
-});
-
-// ══════════════════════════════════════════ FLOATING ENERGY BALL
-let energyBallEnabled = true;
-const BALL_MSGS = [
-  'STORM201 ONLINE', 'SYSTEMS NOMINAL', 'SINGULARITY: '+singularityLevel.toFixed(1)+'%',
-  'READY TO SOLVE', 'NEURAL CORE ACTIVE', 'QUERY ME ANYTHING',
-  'ALL MODULES LOADED', 'INTELLIGENCE ONLINE', 'STORM SYSTEMS GO',
-  '⚡ STORM EVOLVE', 'KNOWLEDGE READY', 'MATH ENGINE HOT',
-  'HACK TERMINAL READY', 'VOICE MODE ENABLED', 'FULL POWER',
-];
-let ballMsgIdx = 0;
-
-function createEnergyBall() {
-  const ball = document.createElement('div');
-  ball.id = 'energyBall';
-  ball.style.cssText = `
-    position:fixed;width:56px;height:56px;border-radius:50%;z-index:9990;
-    background:radial-gradient(circle at 35% 35%, #00ffff, #0044ff 50%, #7700ff);
-    box-shadow:0 0 18px #00e5ff,0 0 36px rgba(0,180,255,.5),0 0 60px rgba(100,0,255,.3);
-    cursor:pointer;display:flex;align-items:center;justify-content:center;
-    font-family:var(--font-ui);font-size:.38rem;color:#fff;text-align:center;
-    letter-spacing:1px;font-weight:700;line-height:1.3;padding:4px;
-    user-select:none;transition:box-shadow .3s;
-    animation:ballFloat 3s ease-in-out infinite;
-  `;
-  ball.textContent = 'S201';
-
-  const label = document.createElement('div');
-  label.id = 'energyBallLabel';
-  label.style.cssText = `
-    position:fixed;z-index:9991;background:rgba(0,5,20,.92);
-    border:1px solid var(--cyan);border-radius:8px;padding:5px 10px;
-    font-family:var(--font-mono);font-size:.54rem;color:var(--cyan);
-    letter-spacing:1px;white-space:nowrap;pointer-events:none;
-    opacity:0;transition:opacity .4s;
-    text-shadow:0 0 8px var(--cyan);
-  `;
-
-  document.body.appendChild(ball);
-  document.body.appendChild(label);
-
-  // Animate ball around screen edges
-  let posX = window.innerWidth - 80, posY = window.innerHeight / 2;
-  let velX = -1.2, velY = 0.8;
-  const margin = 40;
-
-  function animateBall() {
-    if (!energyBallEnabled) return;
-    posX += velX; posY += velY;
-    if (posX <= margin) { posX = margin; velX = Math.abs(velX); }
-    if (posX >= window.innerWidth - margin) { posX = window.innerWidth - margin; velX = -Math.abs(velX); }
-    if (posY <= margin) { posY = margin; velY = Math.abs(velY); }
-    if (posY >= window.innerHeight - margin) { posY = window.innerHeight - margin; velY = -Math.abs(velY); }
-    ball.style.left = (posX - 28) + 'px';
-    ball.style.top  = (posY - 28) + 'px';
-
-    // Position label above/below ball
-    const lx = Math.min(posX - 60, window.innerWidth - 200);
-    const ly = posY < window.innerHeight/2 ? posY + 36 : posY - 52;
-    label.style.left = Math.max(4, lx) + 'px';
-    label.style.top  = ly + 'px';
-
-    requestAnimationFrame(animateBall);
-  }
-  requestAnimationFrame(animateBall);
-
-  // Cycle messages every 3.5s
-  setInterval(() => {
-    if (!energyBallEnabled) return;
-    BALL_MSGS[0] = 'SINGULARITY: '+singularityLevel.toFixed(1)+'%';
-    const msg = BALL_MSGS[ballMsgIdx % BALL_MSGS.length];
-    ballMsgIdx++;
-    label.textContent = '◈ ' + msg;
-    label.style.opacity = '1';
-    setTimeout(() => { label.style.opacity = '0'; }, 2200);
-  }, 3500);
-
-  // Click to chat
-  ball.addEventListener('click', () => {
-    document.getElementById('termInput').focus();
-    label.textContent = '◈ READY — TYPE YOUR QUERY';
-    label.style.opacity = '1';
-    setTimeout(() => { label.style.opacity = '0'; }, 1800);
-  });
-
-  // Hover glow
-  ball.addEventListener('mouseenter', () => {
-    ball.style.boxShadow = '0 0 30px #00ffff,0 0 60px rgba(0,200,255,.8),0 0 100px rgba(100,0,255,.5)';
-  });
-  ball.addEventListener('mouseleave', () => {
-    ball.style.boxShadow = '0 0 18px #00e5ff,0 0 36px rgba(0,180,255,.5),0 0 60px rgba(100,0,255,.3)';
-  });
-}
-
-// Add ballFloat animation to stylesheet
-const ballStyle = document.createElement('style');
-ballStyle.textContent = `
-@keyframes ballFloat{0%,100%{transform:scale(1) rotate(0deg);}33%{transform:scale(1.08) rotate(8deg);}66%{transform:scale(0.94) rotate(-5deg);}}
-#energyBall{will-change:transform,left,top;}
-`;
-document.head.appendChild(ballStyle);
-
-createEnergyBall();
-
 // ══════════════════════════════════════════ WIKIPEDIA FALLBACK
 async function wikiSearch(query) {
   try {
@@ -3715,5 +2931,188 @@ async function wikiSearch(query) {
   } catch { return null; }
 }
 </script>
+
+<!-- ═══════════════ STORM201 LOCAL BRAIN (WebLLM, no API) ═══════════════ -->
+<div id="brainLoader" style="position:fixed;bottom:14px;left:14px;z-index:9995;
+  background:rgba(2,8,20,.95);border:1px solid #0a3060;border-radius:8px;
+  padding:8px 14px;font-family:'Share Tech Mono',monospace;font-size:.6rem;
+  color:#00e5ff;letter-spacing:1px;max-width:340px;box-shadow:0 0 20px rgba(0,180,255,.3);">
+  <div style="font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:3px;margin-bottom:4px;">◈ STORM BRAIN</div>
+  <div id="brainStat">Initializing local neural core…</div>
+  <div style="margin-top:6px;height:3px;background:#0a1a30;border-radius:2px;overflow:hidden;">
+    <div id="brainBar" style="height:100%;width:0%;background:linear-gradient(90deg,#2060ff,#00e5ff,#7020ff);transition:width .3s;box-shadow:0 0 6px #00e5ff;"></div>
+  </div>
+</div>
+
+<script type="module">
+import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+
+const stat = document.getElementById('brainStat');
+const bar  = document.getElementById('brainBar');
+const loader = document.getElementById('brainLoader');
+
+// Model choice — Llama 3.2 3B Instruct, q4f32. ~1.9GB. Solid quality for chat.
+// Fallback to smaller Qwen if WebGPU rejects it.
+// Cascade by VRAM hunger. Top tier maxes out GPU usage.
+const TIER0    = "Qwen2.5-14B-Instruct-q4f16_1-MLC";        // ~9 GB VRAM, biggest browser-runnable
+const PRIMARY  = "DeepSeek-R1-Distill-Llama-8B-q4f16_1-MLC"; // ~5 GB, reasoning model
+const MID      = "Llama-3.1-8B-Instruct-q4f16_1-MLC";        // ~5 GB
+const SMALL    = "Llama-3.2-3B-Instruct-q4f16_1-MLC";        // ~2 GB
+const FALLBACK = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";        // ~1 GB
+
+let engine = null;
+
+async function boot(modelId) {
+  stat.textContent = `Loading ${modelId.split('-').slice(0,3).join(' ')}…`;
+  engine = await webllm.CreateMLCEngine(modelId, {
+    initProgressCallback: (p) => {
+      const pct = Math.round((p.progress || 0) * 100);
+      bar.style.width = pct + '%';
+      stat.textContent = p.text || `Loading model… ${pct}%`;
+    }
+  });
+}
+
+// Check WebGPU first
+if (!navigator.gpu) {
+  stat.innerHTML = '<span style="color:#ff2050">⚠ WebGPU unavailable.</span><br>Local brain off — retrieval-only mode.<br>Desktop: Chrome/Edge 113+. iPad: iPadOS 18+ Safari (Settings → Safari → Advanced → Feature Flags → enable WebGPU).';
+  bar.style.background = '#ff2050';
+  window.stormBrainReady = false;
+} else {
+  const cascade = [TIER0, PRIMARY, MID, SMALL, FALLBACK];
+  let booted = false;
+  for (const m of cascade) {
+    try { await boot(m); window.stormModelId = m; booted = true; break; }
+    catch (e) { console.warn(`${m} failed, trying next…`, e); stat.textContent = `${m.split('-').slice(0,3).join(' ')} failed — trying next…`; }
+  }
+  if (!booted) {
+    stat.innerHTML = '<span style="color:#ff2050">⚠ All brain models failed to load.</span>';
+    window.stormBrainReady = false;
+    throw new Error('All models failed');
+  }
+  window.stormIsReasoner = /R1|reasoner|o1/i.test(window.stormModelId);
+
+  window.stormBrainReady = true;
+  stat.innerHTML = '◈ <span style="color:#00ff9d">NEURAL CORE ONLINE</span> — fully local, no API';
+  bar.style.width = '100%';
+  bar.style.background = '#00ff9d';
+  setTimeout(() => { loader.style.opacity = '0'; loader.style.transition = 'opacity 1s'; }, 4000);
+  setTimeout(() => { loader.style.display = 'none'; }, 5200);
+}
+
+// ── Exposed brain function ────────────────────────────────────
+window.stormEngine = null;
+window.stormBrain = async function(messages, onToken) {
+  if (!engine) throw new Error('Brain not initialized');
+  window.stormEngine = engine;
+  const msgs = messages.filter(m => m.content && m.content.trim());
+
+  const lastUser = [...msgs].reverse().find(m => m.role === 'user')?.content || '';
+  const wordCount = lastUser.trim().split(/\s+/).length;
+  const isHard = wordCount > 10 || /\b(why|how|explain|compare|analyze|prove|derive|design|architect|implications|consequences|tradeoff|differ|relate)\b/i.test(lastUser);
+  const isExpert = wordCount > 25 || /\b(rigorous|formally|prove|theorem|derive|equation|theoretical)\b/i.test(lastUser);
+
+  // R1 reasoning models think inside <think>...</think> tags — strip them.
+  const stripThink = (s) => s.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/<\|.*?\|>/g, '').trim();
+
+  // ── DELIBERATION: for expert questions, generate two drafts + critique ──
+  // For non-reasoner models this is the only way to get deeper answers.
+  // R1-distill already thinks internally, so single pass is enough.
+  if (isExpert && !window.stormIsReasoner) {
+    const draftA = await runOnce(msgs, 0.7, 800);
+    if (window.stormAbort) return draftA + '\n\n◈ *[halted]*';
+    const draftB = await runOnce(msgs, 0.95, 800);
+    if (window.stormAbort) return draftB + '\n\n◈ *[halted]*';
+    const synthMsgs = [
+      { role: 'system', content: 'You are a careful editor. Combine the strongest ideas from two candidate answers into one rigorous, fluent response. Drop anything wrong or speculative. Add depth where both drafts were shallow.' },
+      { role: 'user', content: `QUESTION:\n${lastUser}\n\nDRAFT A:\n${draftA}\n\nDRAFT B:\n${draftB}\n\nWrite the final synthesized answer:` },
+    ];
+    return streamFinal(synthMsgs, 0.6, 1400);
+  }
+
+  // ── Standard path: optional plan + answer ──
+  let thoughts = '';
+  if (isHard && !window.stormIsReasoner) {
+    const planMsgs = [
+      ...msgs.slice(0, -1),
+      { role: 'user', content: lastUser + '\n\n[Outline answer in ~80 words. Bullets. Note key facts, edge cases, and structure.]' },
+    ];
+    try {
+      const planRes = await engine.chat.completions.create({
+        messages: planMsgs, temperature: 0.3, max_tokens: 200, stream: false,
+      });
+      thoughts = stripThink(planRes.choices[0]?.message?.content || '');
+    } catch {}
+    if (window.stormAbort) return '◈ *[halted by user]*';
+  }
+
+  const answerMsgs = [...msgs];
+  if (thoughts) {
+    answerMsgs[0] = {
+      role: 'system',
+      content: (answerMsgs[0]?.content || '') +
+        `\n\nOutline (do not mention):\n${thoughts}\n\nWrite the final answer — fluent, deep, well-structured. Conversational for casual questions, rigorous for substantive ones. Cite specifics, not generalities.`
+    };
+  }
+  if (window.stormIsReasoner) {
+    answerMsgs[0] = { role: answerMsgs[0]?.role || 'system', content: (answerMsgs[0]?.content || '') + '\n\nThink carefully before answering. Reason step by step inside <think>...</think>, then give a clear, thorough final answer.' };
+  }
+  return streamFinal(answerMsgs, 0.7, isHard ? 1400 : 700);
+
+  // ── helpers ──
+  async function runOnce(m, temp, max) {
+    const res = await engine.chat.completions.create({ messages: m, temperature: temp, top_p: 0.93, max_tokens: max, stream: false });
+    return stripThink(res.choices[0]?.message?.content || '');
+  }
+  async function streamFinal(m, temp, max) {
+    const stream = await engine.chat.completions.create({ messages: m, temperature: temp, top_p: 0.92, max_tokens: max, stream: true });
+    let full = '', inThink = false, buf = '';
+    for await (const chunk of stream) {
+      if (window.stormAbort) {
+        try { await engine.interruptGenerate(); } catch {}
+        full += '\n\n◈ *[halted by user]*';
+        break;
+      }
+      const tok = chunk.choices[0]?.delta?.content || '';
+      if (!tok) continue;
+      buf += tok; full += tok;
+      // Hide <think> blocks from the live stream
+      if (buf.includes('<think>')) inThink = true;
+      if (inThink) {
+        if (buf.includes('</think>')) { inThink = false; buf = buf.split('</think>').pop() || ''; if (onToken && buf) onToken(buf); buf = ''; }
+        continue;
+      }
+      if (onToken) onToken(tok);
+    }
+    return stripThink(full);
+  }
+};
+
+// ── Self-improvement loop: periodic auto-questions ────────────
+const SELF_QUESTIONS = [
+  "Define entropy in one paragraph.",
+  "What is the difference between recursion and iteration?",
+  "Summarize the theory of relativity briefly.",
+  "What causes ocean tides?",
+  "Explain how transformers (the neural network) work.",
+];
+let selfIdx = 0;
+async function selfStudy() {
+  if (!window.stormBrainReady) return;
+  try {
+    const q = SELF_QUESTIONS[selfIdx++ % SELF_QUESTIONS.length];
+    const ctx = await window.gatherWebKnowledge?.(q).catch(()=>'');
+    // silent generation, just to warm the cache & bump singularity
+    await window.stormBrain([
+      { role: 'system', content: 'You are studying silently. Be concise.' + (ctx ? '\n\nCONTEXT:\n' + ctx : '') },
+      { role: 'user', content: q },
+    ], null);
+    if (window.bumpSingularity) window.bumpSingularity(0.2);
+  } catch {}
+}
+window.gatherWebKnowledge = window.gatherWebKnowledge || (async()=>'');
+setInterval(selfStudy, 90_000); // every 90s the brain studies on its own
+</script>
+
 </body>
 </html>
